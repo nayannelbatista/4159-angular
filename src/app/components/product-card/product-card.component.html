@@ -1,0 +1,16 @@
+<mat-card class="product-card">
+  <img 
+    mat-card-image 
+    [src]="image" 
+    alt="{{ title }}" 
+    (click)="onDetailsClick()"
+    />
+  <mat-card-content>
+    <h3>{{ title }}</h3>
+    <p>R${{ price }},00</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">ADICIONAR AO CARRINHO</button>
+  </mat-card-actions>
+</mat-card>
+
