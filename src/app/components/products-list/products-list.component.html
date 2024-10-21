@@ -1,5 +1,18 @@
+@if (offers.length > 0) {
+  <section class="offers">
+    <h2>Ofertas disponíveis para sua região:</h2>
+    <ul>
+      @for (offer of offers; track offer) {
+        <li>
+          {{ offer }}
+        </li>
+      }
+    </ul>
+  </section>
+}
+
 @for (group of productsByCategory; track group.category) {
-  <div class="product-category">
+  <section class="product-category">
     <h2>{{ group.category }}</h2>
     <div class="product-list">
         @for (product of group.products; track product.id) {
@@ -13,6 +26,6 @@
           </div>
         }
     </div> 
-  </div>  
+  </section>  
 }
 
