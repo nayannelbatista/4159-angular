@@ -1,11 +1,12 @@
 import { afterNextRender, Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { CommonModule, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { MatList, MatListItem } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppShellRenderDirective } from '../../directives/app-shell-render.directive';
+import { AppShellNoRenderDirective } from '../../directives/app-shell-no-render.directive';
 
 @Component({
   selector: 'app-products-list',
@@ -13,10 +14,9 @@ import { Product } from '../../interfaces/product';
   imports: [
     CommonModule,
     ProductCardComponent,
-    MatGridList,
-    MatGridTile,
-    MatList,
-    MatListItem
+    MatProgressSpinnerModule,
+    AppShellRenderDirective,
+    AppShellNoRenderDirective
   ],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'

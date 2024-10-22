@@ -4,12 +4,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
+import { AppShellRenderDirective } from '../../directives/app-shell-render.directive';
+import { AppShellNoRenderDirective } from '../../directives/app-shell-no-render.directive';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,8 +25,11 @@ import { Product } from '../../interfaces/product';
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatIcon,
-    RouterLink
+    MatIconModule,
+    MatProgressSpinnerModule,
+    RouterLink,
+    AppShellRenderDirective,
+    AppShellNoRenderDirective
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
