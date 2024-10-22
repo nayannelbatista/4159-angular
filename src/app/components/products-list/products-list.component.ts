@@ -8,6 +8,7 @@ import { AppShellRenderDirective } from '../../directives/app-shell-render.direc
 import { Product } from '../../interfaces/product';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-products-list',
@@ -31,7 +32,8 @@ export class ProductsListComponent implements OnInit {
   //private productService = inject(ProductService) outra forma de DI
 
   constructor(
-    private productService: ProductService,
+    // private productService: ProductService,
+    private supabaseService: SupabaseService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: object) {
     afterNextRender(() => {
@@ -47,17 +49,30 @@ export class ProductsListComponent implements OnInit {
     if (isPlatformServer(this.platformId)) {
       console.log('Este código está sendo executado no servidor.');
     }
-    const products = this.productService.getProducts();
-    this.groupProductsByCategory(products);
+    // const products = this.productService.getProducts();
+    // this.groupProductsByCategory(products);
+    this.loadProducts();
   }
 
-  groupProductsByCategory(products: Product[]) {
-    const categories = [...new Set(products.map(product => product.category))];
-    this.productsByCategory = categories.map(category => ({
-      category,
-      products: products.filter(product => product.category === category)
-    }));
+  loadProducts() {
+    this.supabaseService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+        // this.groupProductsByCategory(products);
+      },
+      error: (err) => {
+        console.error('Error fetching products from Supabase:', err);
+      }
+    });
   }
+
+  // groupProductsByCategory(products: Product[]) {
+  //   const categories = [...new Set(products.map(product => product.category))];
+  //   this.productsByCategory = categories.map(category => ({
+  //     category,
+  //     products: products.filter(product => product.category === category)
+  //   }));
+  // }
 
   private getCurrentLocation(): void {
     try {
