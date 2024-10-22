@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { Product } from '../interfaces/product';
 
 @Injectable({
@@ -38,5 +38,8 @@ export class ProductService {
   getProductById(id: number): Observable<Product | undefined> {
     const product = this.products.find(p => p.id === id);
     return of(product);
+    // return of(this.products.find(product => product.id === id)).pipe(
+    //   delay(3000)
+    // );
   }
 }

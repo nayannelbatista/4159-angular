@@ -1,22 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
   imports: [
-    MatCard, 
-    MatCardContent, 
-    MatCardActions
+    MatCardModule
   ],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
 
 export class ProductCardComponent {
-  @Input() title!: string;
-  @Input() price!: number;
   @Input() image!: string;
+  @Input() price!: number;
+  @Input() title!: string;
 
   @Output() viewDetails = new EventEmitter<void>();
 

@@ -1,22 +1,23 @@
 import { afterNextRender, Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { ProductCardComponent } from '../product-card/product-card.component';
 import { CommonModule, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Router } from '@angular/router';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../interfaces/product';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AppShellRenderDirective } from '../../directives/app-shell-render.directive';
+import { Router } from '@angular/router';
+
 import { AppShellNoRenderDirective } from '../../directives/app-shell-no-render.directive';
+import { AppShellRenderDirective } from '../../directives/app-shell-render.directive';
+import { Product } from '../../interfaces/product';
+import { ProductCardComponent } from '../product-card/product-card.component';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products-list',
   standalone: true,
   imports: [
-    CommonModule,
-    ProductCardComponent,
-    MatProgressSpinnerModule,
+    AppShellNoRenderDirective,
     AppShellRenderDirective,
-    AppShellNoRenderDirective
+    CommonModule,
+    MatProgressSpinnerModule,
+    ProductCardComponent
   ],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'

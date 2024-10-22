@@ -19,7 +19,7 @@
       <mat-spinner></mat-spinner>
       <p>Carregando detalhes do produto...</p>
     </div>
-        <p class="product-ingredients">Ingredientes: {{ product.ingredients }}</p>
+        <p *appShellNoRender class="product-ingredients">Ingredientes: {{ product.ingredients }}</p>
         <h3 class="product-price">{{ product.price| currency:'BRL' }}</h3>
   
         <mat-form-field appearance="outline">
