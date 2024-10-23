@@ -47,15 +47,18 @@ export class ProductDetailComponent {
     private meta: Meta,
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const productId = parseInt(this.route.snapshot.paramMap.get('id') ?? '0', 10);
-    this.productService.getProductById(productId).subscribe(product => {
-      if (!product) {
-        console.error('Product not found');
-        return;
-      }
-      this.product = product;
-    });
+    try{
+      const product = await this.productService.getProductById(productId);
+    if (!product) {
+      console.error('Product not found');
+      return;
+    }
+    this.product = product;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+  }
     this.setPageMeta();
   }
 

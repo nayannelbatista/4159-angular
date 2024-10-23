@@ -1,4 +1,4 @@
-import { afterNextRender, Component, inject, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { afterNextRender, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
@@ -8,7 +8,6 @@ import { AppShellRenderDirective } from '../../directives/app-shell-render.direc
 import { Product } from '../../interfaces/product';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
-import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-products-list',
@@ -25,15 +24,12 @@ import { SupabaseService } from '../../services/supabase.service';
 })
 export class ProductsListComponent implements OnInit {
 
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
+  products: Product[]  = [];
   offers: string[] = [];
   productsByCategory: { category: string, products: Product[] }[] = [];
-  //private productService = inject(ProductService) outra forma de DI
 
   constructor(
-    // private productService: ProductService,
-    private supabaseService: SupabaseService,
+    private productService: ProductService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: object) {
     afterNextRender(() => {
@@ -49,30 +45,22 @@ export class ProductsListComponent implements OnInit {
     if (isPlatformServer(this.platformId)) {
       console.log('Este código está sendo executado no servidor.');
     }
-    // const products = this.productService.getProducts();
-    // this.groupProductsByCategory(products);
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.supabaseService.getProducts().subscribe({
-      next: (products) => {
-        this.products = products;
-        // this.groupProductsByCategory(products);
-      },
-      error: (err) => {
-        console.error('Error fetching products from Supabase:', err);
-      }
-    });
+  async loadProducts() {
+    const products = await this.productService.getProducts() 
+    this.products = products as Product[];
+    this.groupProductsByCategory(this.products);
   }
 
-  // groupProductsByCategory(products: Product[]) {
-  //   const categories = [...new Set(products.map(product => product.category))];
-  //   this.productsByCategory = categories.map(category => ({
-  //     category,
-  //     products: products.filter(product => product.category === category)
-  //   }));
-  // }
+  groupProductsByCategory(products: Product[]) {
+    const categories = [...new Set(products.map(product => product.category))];
+    this.productsByCategory = categories.map(category => ({
+      category,
+      products: products.filter(product => product.category === category)
+    }));
+  }
 
   private getCurrentLocation(): void {
     try {
@@ -96,9 +84,6 @@ export class ProductsListComponent implements OnInit {
   }
 
   private getOffersBasedOnLocation(latitude: number): void {
-    this.filteredProducts = this.products.filter(product => {
-      return latitude > 0 && product.category === 'Milkshakes';
-    });
 
     if (latitude < -23) {
       this.offers = ['Oferta para a região Sul: 20% de desconto no milkshake de morango'];
